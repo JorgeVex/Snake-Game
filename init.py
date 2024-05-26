@@ -35,15 +35,33 @@ reloj = pygame.time.Clock()
 
 # Función para dibujar la serpiente en pantalla
 def dibujar_serpiente(cuerpo_serpiente):
+    """
+    Dibuja cada segmento de la serpiente en la pantalla.
+
+    Argumentos:
+    snake_body -- Lista de posiciones (coordenadas x, y) de cada segmento del cuerpo de la serpiente
+    """
     for pos in cuerpo_serpiente:
         pygame.draw.rect(pantalla, verde, (pos[0], pos[1], 10, 10))
 
 # Función para dibujar la comida en pantalla
 def dibujar_comida(pos_comida):
+    """
+    Dibuja la comida en la pantalla.
+
+    Argumentos:
+    food_pos -- Posición (coordenadas x, y) de la comida
+    """
     pygame.draw.rect(pantalla, blanco, (pos_comida[0], pos_comida[1], 10, 10))
 
 # Función para actualizar y mostrar el puntaje en pantalla
 def actualizar_puntaje(puntaje):
+    """
+    Actualiza y muestra el puntaje actual en la pantalla.
+
+    Argumentos:
+    puntaje -- El puntaje actual del jugador
+    """
     fuente = pygame.font.SysFont("arial", 30)
     superficie_puntaje = fuente.render("Puntaje: " + str(puntaje), True, blanco)
     rectangulo_puntaje = superficie_puntaje.get_rect()
@@ -51,6 +69,9 @@ def actualizar_puntaje(puntaje):
 
 # Función que se llama cuando el juego termina
 def fin_juego():
+    """
+    Muestra un mensaje de "Game Over" en la pantalla y termina el juego.
+    """
     fuente = pygame.font.SysFont("arial", 60)
     superficie_fin_juego = fuente.render("Fin del Juego", True, rojo)
     rectangulo_fin_juego = superficie_fin_juego.get_rect()
@@ -94,12 +115,12 @@ while True:
         pos_serpiente[0] += 10
 
     # Mecanismo para que la serpiente crezca
-    cuerpo_serpiente.insert(0, list(pos_serpiente))
-    if pos_serpiente[0] == pos_comida[0] and pos_serpiente[1] == pos_comida[1]:
+    cuerpo_serpiente.insert(0, list(pos_serpiente)) # Insertar una copia de la nueva posición de la cabeza al inicio del cuerpo de la serpiente
+    if pos_serpiente[0] == pos_comida[0] and pos_serpiente[1] == pos_comida[1]: # Si la serpiente come la comida
         puntaje += 1
-        comida_spawn = False
+        comida_spawn = False # Se necesitará generar nueva comida
     else:
-        cuerpo_serpiente.pop()
+        cuerpo_serpiente.pop() # Eliminar el último segmento del cuerpo de la serpiente si no ha comido
 
     # Generar comida en una nueva posición aleatoria si no hay comida en pantalla
     if not comida_spawn:
@@ -109,17 +130,17 @@ while True:
     # Verificar condiciones de fin de juego
     if pos_serpiente[0] < 0 or pos_serpiente[0] >= ancho or pos_serpiente[1] < 0 or pos_serpiente[1] >= alto:
         fin_juego()
-    for segmento in cuerpo_serpiente[1:]:
+    for segmento in cuerpo_serpiente[1:]: # Verificar colisión con el propio cuerpo
         if pos_serpiente[0] == segmento[0] and pos_serpiente[1] == segmento[1]:
             fin_juego()
 
     # Limpiar la pantalla y dibujar los elementos
-    pantalla.fill(negro)
-    dibujar_serpiente(cuerpo_serpiente)
-    dibujar_comida(pos_comida)
-    actualizar_puntaje(puntaje)
+    pantalla.fill(negro) # Llenar la pantalla con color negro
+    dibujar_serpiente(cuerpo_serpiente) # Dibujar la serpiente
+    dibujar_comida(pos_comida) # Dibujar la comida
+    actualizar_puntaje(puntaje) # Actualizar y mostrar el puntaje
 
-    pygame.display.flip()
+    pygame.display.flip() # Actualizar la pantalla
 
     # Controlar la velocidad del juego
-    reloj.tick(10)
+    reloj.tick(10) # Establecer la cantidad de cuadros por segundo (FPS)
