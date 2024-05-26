@@ -113,6 +113,16 @@ while True:
         pos_serpiente[0] -= 10
     elif direccion_serpiente == "DERECHA":
         pos_serpiente[0] += 10
+        
+    # Hacer que la serpiente atraviese los bordes
+    if pos_serpiente[0] < 0:
+        pos_serpiente[0] = ancho - 10
+    elif pos_serpiente[0] >= ancho:
+        pos_serpiente[0] = 0
+    if pos_serpiente[1] < 0:
+        pos_serpiente[1] = alto - 10
+    elif pos_serpiente[1] >= alto:
+        pos_serpiente[1] = 0
 
     # Mecanismo para que la serpiente crezca
     cuerpo_serpiente.insert(0, list(pos_serpiente)) # Insertar una copia de la nueva posición de la cabeza al inicio del cuerpo de la serpiente
