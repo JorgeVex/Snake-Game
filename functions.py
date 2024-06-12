@@ -88,25 +88,6 @@ def actualizar_puntaje(pantalla, puntaje, ANCHO):
     rectangulo_puntaje = superficie_puntaje.get_rect()
     pantalla.blit(superficie_puntaje, rectangulo_puntaje)
 
-def fin_juego(pantalla, ANCHO, ALTO):
-    """
-    Muestra un mensaje de "Game Over" en la pantalla y termina el juego.
-    
-    Argumentos:
-    pantalla -- Pantalla de juego.
-    ANCHO -- Ancho de la pantalla.
-    ALTO -- Alto de la pantalla.
-    """
-    fuente = pygame.font.SysFont("arial", 60)
-    superficie_fin_juego = fuente.render("FIN DEL JUEGO", True, ROJO)
-    rectangulo_fin_juego = superficie_fin_juego.get_rect()
-    rectangulo_fin_juego.midtop = (ANCHO / 2, ALTO / 4)
-    pantalla.blit(superficie_fin_juego, rectangulo_fin_juego)
-    pygame.display.flip()
-    pygame.time.delay(5000)
-    pygame.quit()
-    quit()
-
 def generar_obstaculos(num_obstaculos, ANCHO, ALTO, tamaño):
     """
     Genera una lista de posiciones de obstáculos aleatorios.
@@ -138,3 +119,22 @@ def dibujar_obstaculos(pantalla, obstaculos, color):
     """
     for pos in obstaculos:
         pygame.draw.rect(pantalla, color, (pos[0], pos[1], 10, 10))
+        
+def fin_juego(pantalla, ANCHO, ALTO):
+    """
+    Muestra un mensaje de "Game Over" en la pantalla y termina el juego.
+    
+    Argumentos:
+    pantalla -- Pantalla de juego.
+    ANCHO -- Ancho de la pantalla.
+    ALTO -- Alto de la pantalla.
+    """
+    fuente = pygame.font.SysFont("arial", 60)
+    superficie_fin_juego = fuente.render("FIN DEL JUEGO", True, ROJO)
+    rectangulo_fin_juego = superficie_fin_juego.get_rect()
+    rectangulo_fin_juego.midtop = (ANCHO / 2, ALTO / 4)
+    pantalla.blit(superficie_fin_juego, rectangulo_fin_juego)
+    pygame.display.flip()
+    pygame.time.delay(5000)
+    pygame.quit()
+    quit()
