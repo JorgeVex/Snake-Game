@@ -1,4 +1,5 @@
 import pygame
+import random
 from conf.colors import *
 
 def seleccionar_color_serpiente(pantalla, ANCHO, ALTO):
@@ -105,3 +106,35 @@ def fin_juego(pantalla, ANCHO, ALTO):
     pygame.time.delay(5000)
     pygame.quit()
     quit()
+
+def generar_obstaculos(num_obstaculos, ANCHO, ALTO, tamaño):
+    """
+    Genera una lista de posiciones de obstáculos aleatorios.
+
+    Argumentos:
+    num_obstaculos -- Número de obstáculos a generar
+    ANCHO -- Ancho de la pantalla
+    ALTO -- Alto de la pantalla
+    tamaño -- Tamaño del lado del cuadrado del obstáculo
+
+    Retorna:
+    Una lista de posiciones (coordenadas x, y) de los obstáculos.
+    """
+    obstaculos = []
+    for _ in range(num_obstaculos):
+        x = random.randrange(1, (ANCHO // tamaño)) * tamaño
+        y = random.randrange(1, (ALTO // tamaño)) * tamaño
+        obstaculos.append([x, y])
+    return obstaculos
+
+def dibujar_obstaculos(pantalla, obstaculos, color):
+    """
+    Dibuja los obstáculos en la pantalla.
+
+    Argumentos:
+    pantalla -- Superficie de Pygame donde se dibujarán los obstáculos
+    obstaculos -- Lista de posiciones (coordenadas x, y) de los obstáculos
+    color -- Color de los obstáculos
+    """
+    for pos in obstaculos:
+        pygame.draw.rect(pantalla, color, (pos[0], pos[1], 10, 10))

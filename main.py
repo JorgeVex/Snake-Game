@@ -2,7 +2,7 @@ import pygame
 import random
 from conf.config import *
 from conf.colors import *
-from functions import seleccionar_color_serpiente, dibujar_serpiente, dibujar_comida, actualizar_puntaje, fin_juego
+from functions import seleccionar_color_serpiente, dibujar_serpiente, dibujar_comida, actualizar_puntaje, fin_juego, generar_obstaculos, dibujar_obstaculos
 
 # Inicializar pygame
 pygame.init()
@@ -29,6 +29,10 @@ puntaje = 0
 
 # Reloj para controlar la velocidad del juego
 reloj = pygame.time.Clock()
+
+# Generar obstáculos
+num_obstaculos = 10
+obstaculos = generar_obstaculos(num_obstaculos, ANCHO, ALTO, 10)
 
 # Bucle principal del juego
 while True:
@@ -82,12 +86,20 @@ while True:
     # Verificar colisiones
     if pos_serpiente in cuerpo_serpiente[1:]:
         fin_juego(pantalla, ANCHO, ALTO)
+        
+    # Verifica las colisiones de la serpiente con cada obstaculo
+    if pos_serpiente in obstaculos:
+        fin_juego(pantalla, ANCHO, ALTO)
+    for segmento in cuerpo_serpiente[1:]:
+        if pos_serpiente[0] == segmento[0] and pos_serpiente[1] == segmento[1]:
+            fin_juego(pantalla, ANCHO, ALTO)
 
     # Dibujar elementos en pantalla
     pantalla.fill(NEGRO)
     dibujar_serpiente(pantalla, cuerpo_serpiente, color_serpiente)
     dibujar_comida(pantalla, pos_comida)
     actualizar_puntaje(pantalla, puntaje, ANCHO)
+    dibujar_obstaculos(pantalla, obstaculos, AMARILLO)
 
     pygame.display.flip()
 
