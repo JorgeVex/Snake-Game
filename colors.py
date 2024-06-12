@@ -1,3 +1,4 @@
+# Definición de colores en formato RGB
 NEGRO = (0, 0, 0)
 BLANCO = (255, 255, 255)
 VERDE = (0, 255, 0)

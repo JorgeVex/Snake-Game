@@ -1,7 +1,9 @@
 import pygame
 
+# Configuración del juego
 ANCHO, ALTO = 640, 480
 
+# Diccionario de direcciones de movimiento
 DIRECCIONES = {
     pygame.K_UP: "ARRIBA",
     pygame.K_w: "ARRIBA",
@@ -13,6 +15,7 @@ DIRECCIONES = {
     pygame.K_d: "DERECHA"
 }
 
+# Diccionario de direcciones opuestas
 OPPOSITE_DIRECTION = {
     "ARRIBA": "ABAJO",
     "ABAJO": "ARRIBA",
