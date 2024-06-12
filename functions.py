@@ -1,5 +1,5 @@
 import pygame
-from colors import *
+from conf.colors import *
 
 def seleccionar_color_serpiente(pantalla, ANCHO, ALTO):
     """

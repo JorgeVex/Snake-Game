@@ -1,7 +1,7 @@
 import pygame
 import random
-from config import *
-from colors import *
+from conf.config import *
+from conf.colors import *
 from functions import seleccionar_color_serpiente, dibujar_serpiente, dibujar_comida, actualizar_puntaje, fin_juego
 
 # Inicializar pygame

@@ -1,6 +1,6 @@
 import pygame
 
-# Configuración del juego
+# Configuración de la pantalla del juego
 ANCHO, ALTO = 640, 480
 
 # Diccionario de direcciones de movimiento
