@@ -1,8 +1,9 @@
 import pygame
 import random
+import time
 from conf.config import *
 from conf.colors import *
-from functions import seleccionar_color_serpiente, dibujar_serpiente, dibujar_comida, actualizar_puntaje, fin_juego, generar_obstaculos, dibujar_obstaculos
+from functions import seleccionar_color_serpiente, dibujar_serpiente, dibujar_comida, actualizar_puntaje, fin_juego, generar_obstaculos, dibujar_obstaculos, agregar_potenciador, generar_potenciador
 
 # Inicializar pygame
 pygame.init()
@@ -29,6 +30,15 @@ puntaje = 0
 
 # Reloj para controlar la velocidad del juego
 reloj = pygame.time.Clock()
+
+# Variables del potenciador
+puntos_potenciador = 9
+potenciador_activado = False
+velocidad_inicial = 10
+velocidad_actual = velocidad_inicial
+pos_potenciador = None
+inicio_tiempo_potenciador = 0
+tiempo_potenciador_duracion = 10000
 
 # Generar obstáculos
 num_obstaculos = 10
@@ -75,6 +85,15 @@ while True:
     if pos_serpiente == pos_comida:
         puntaje += 1
         comida_spawn = False
+        
+        # Activar el potenciador si el puntaje es múltiplo de 9
+        if puntaje % puntos_potenciador == 0:
+            potenciador_activado = True
+            pos_potenciador = generar_potenciador(ANCHO, ALTO)
+            # Restablecer la velocidad a la velocidad inicial al consumir el potenciador
+            velocidad_actual = velocidad_inicial
+            # Registrar el tiempo de inicio del potenciador
+            inicio_tiempo_potenciador = pygame.time.get_ticks()
     else:
         cuerpo_serpiente.pop()
 
@@ -83,10 +102,17 @@ while True:
         pos_comida = [random.randrange(1, (ANCHO//10)) * 10, random.randrange(1, (ALTO//10)) * 10]
     comida_spawn = True
 
+    # Verificar colisiones con el potenciador
+    if potenciador_activado and pos_serpiente == pos_potenciador:
+        potenciador_activado = False
+        obstaculos = generar_obstaculos(num_obstaculos, ANCHO, ALTO, 10)  # Cambia la posición de los obstáculos de forma aleatoria
+        velocidad_actual = velocidad_inicial * 2  # Aumentar la velocidad
+        inicio_tiempo_potenciador = pygame.time.get_ticks()  # Registrar el tiempo de inicio del potenciador
+        
     # Verificar colisiones
     if pos_serpiente in cuerpo_serpiente[1:]:
         fin_juego(pantalla, ANCHO, ALTO)
-        
+    
     # Verifica las colisiones de la serpiente con cada obstaculo
     if pos_serpiente in obstaculos:
         fin_juego(pantalla, ANCHO, ALTO)
@@ -94,14 +120,23 @@ while True:
         if pos_serpiente[0] == segmento[0] and pos_serpiente[1] == segmento[1]:
             fin_juego(pantalla, ANCHO, ALTO)
 
+    # Controlar la duración del potenciador
+    if velocidad_actual > velocidad_inicial and pygame.time.get_ticks() - inicio_tiempo_potenciador > tiempo_potenciador_duracion:
+        velocidad_actual = velocidad_inicial  # Restablecer la velocidad
+    
     # Dibujar elementos en pantalla
     pantalla.fill(NEGRO)
     dibujar_serpiente(pantalla, cuerpo_serpiente, color_serpiente)
     dibujar_comida(pantalla, pos_comida)
+    
+    # Dibujar potenciador si está activado
+    if potenciador_activado:
+        agregar_potenciador(pantalla, pos_potenciador)
+    
     actualizar_puntaje(pantalla, puntaje, ANCHO)
     dibujar_obstaculos(pantalla, obstaculos, AMARILLO)
 
     pygame.display.flip()
 
     # Controlar la velocidad del juego
-    reloj.tick(10)
+    reloj.tick(velocidad_actual)

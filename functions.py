@@ -1,5 +1,6 @@
 import pygame
 import random
+import time
 from conf.colors import *
 
 def seleccionar_color_serpiente(pantalla, ANCHO, ALTO):
@@ -119,6 +120,30 @@ def dibujar_obstaculos(pantalla, obstaculos, color):
     """
     for pos in obstaculos:
         pygame.draw.rect(pantalla, color, (pos[0], pos[1], 10, 10))
+        
+def agregar_potenciador(pantalla, pos_potenciador):
+    """
+    Dibuja el potenciador en la pantalla.
+    
+    Argumentos:
+    pantalla -- Pantalla de juego.
+    pos_potenciador -- Posición del potenciador.
+    """
+    pygame.draw.circle(pantalla, ROJO, pos_potenciador, 10)
+    
+def generar_potenciador(ANCHO, ALTO):
+    """
+    Genera una posición aleatoria para el potenciador.
+    
+    Argumentos:
+    ANCHO -- Ancho de la pantalla.
+    ALTO -- Alto de la pantalla.
+    
+    Retorna:
+    Posición del potenciador.
+    """
+    return [random.randrange(1, (ANCHO // 10)) * 10, random.randrange(1, (ALTO // 10)) * 10]
+
         
 def fin_juego(pantalla, ANCHO, ALTO):
     """
